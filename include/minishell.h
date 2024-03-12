@@ -36,6 +36,7 @@ typedef enum e_op
 	INPUT_DELIM, // "<<" which reads input until a delimiter is seen
 	OUTPUT_REDIR_A, // ">>" which redirects output in append mode
 	PIPE, // Pipe character "|"
+	CONTENT,
 }			t_op;
 
 typedef enum e_cmd
@@ -68,17 +69,30 @@ typedef enum e_sign
  * |___/\__|_|   \__,_|\___|\__|___/   	*
  ****************************************/
 
+
+typedef struct s_list t_list;
 typedef struct s_parsed
 {
     char **operator;
     char **cmd;
 }				t_parsed;
 
-typedef struct s_list {
-	char	*branch;
+typedef struct s_token
+{
+	t_op	token_type;
+	t_list	*list;
+	char	*next;
+	char	*prev;
+}				t_token;
+
+struct s_list
+{
+	char			*branch;
+	t_token			token;
 	struct s_list	*next;
 	struct s_list	*prev;
-}	t_list;
+};
+
 
 /********************************************************
 *                 | |      | |                          *
@@ -95,22 +109,20 @@ typedef struct s_list {
 
 void	print_errors(t_error error);
 void	print_sign(t_sign sign);
-char *ft_strncpy(char *s1, char *s2, int n);
+char 	*ft_strncpy(char *s1, char *s2, int n);
 char	**ft_words(char *str);
 char	**ft_cmd(char *str);
-void test_print(t_parsed cmdWords);
+void 	test_print(t_parsed cmdWords);
 t_parsed parse_input(char *str);
-int	ft_strstr(const char *haystack, const char *needle);
+int		ft_strstr(const char *haystack, const char *needle);
 
-//list
-// void	create_list(t_list *cmd_args, char *input);
-void	append_node(t_list **stack, char *branch);
+
 void	print_list(t_list *stack);
-t_list	*find_last(t_list *stack);
-void	append_branch(t_parsed cmd_op, t_list *list);
-int     print_size(t_list* node);
+t_list* create_node(char* branch);
+void 	append_node(t_list** head, char* branch);
+void 	append_branch(t_parsed cmd_op, t_list **head);
+void 	print_list(t_list* node);
 
-// t_list* createNode(char* branch);
-// void appendNode(t_list** head, char* branch) ;
+int	ft_strcmp(char *s1, char *s2);
 
 #endif
