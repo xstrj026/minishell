@@ -10,6 +10,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "../libft/libft.h"
 
 # define RST	"\033[0m"
 # define RED	"\033[1;31m"
@@ -69,12 +70,12 @@ typedef enum e_sign
 
 typedef struct s_parsed
 {
-    char **array_cmd;
-    char **array_word;
+    char **operator;
+    char **cmd;
 }				t_parsed;
 
 typedef struct s_list {
-	char	*word;
+	char	*branch;
 	struct s_list	*next;
 	struct s_list	*prev;
 }	t_list;
@@ -91,7 +92,7 @@ typedef struct s_list {
 
 //utils
 
-int		ft_putstr_fd(char *s);
+
 void	print_errors(t_error error);
 void	print_sign(t_sign sign);
 char *ft_strncpy(char *s1, char *s2, int n);
@@ -100,5 +101,16 @@ char	**ft_cmd(char *str);
 void test_print(t_parsed cmdWords);
 t_parsed parse_input(char *str);
 int	ft_strstr(const char *haystack, const char *needle);
+
+//list
+// void	create_list(t_list *cmd_args, char *input);
+void	append_node(t_list **stack, char *branch);
+void	print_list(t_list *stack);
+t_list	*find_last(t_list *stack);
+void	append_branch(t_parsed cmd_op, t_list *list);
+int     print_size(t_list* node);
+
+// t_list* createNode(char* branch);
+// void appendNode(t_list** head, char* branch) ;
 
 #endif

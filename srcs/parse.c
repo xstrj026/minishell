@@ -38,8 +38,8 @@ t_parsed parse_input(char *str)
 {
 	t_parsed cmdWords; // Create an instance of the struct
 
-    cmdWords.array_cmd = ft_cmd(str); 
-    cmdWords.array_word = ft_words(str);
+    cmdWords.operator = ft_cmd(str); 
+    cmdWords.cmd = ft_words(str);
 
     return (cmdWords); // Return the struct (make sure to manage memory properly!)
 }
@@ -62,21 +62,21 @@ char	**ft_words(char *str)
 	int wc = 0;
 	while (str[i])
 	{
-		while (str[i] && (str[i] == '|' || str[i] == ' ' || str[i] == '\t' || str[i] == '>' || str[i] == '<'))
+		while (str[i] && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
 			i++;
 		if (str[i])
 			wc++;
-		while (str[i] && (str[i] != '|' && str[i] != ' ' && str[i] != '\t' && str[i] != '>' && str[i] != '<'))
+		while (str[i] && (str[i] != '|' && str[i] != '>' && str[i] != '<'))
 			i++;
 	}
 	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
 	i = 0;
 	while (str[i])
 	{
-		while (str[i] && (str[i] == '|' || str[i] == ' ' || str[i] == '\t' || str[i] == '>' || str[i] == '<'))
+		while (str[i] && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
 			i++;
 		j = i;
-		while (str[i] && (str[i] != '|' && str[i] != ' ' && str[i] != '\t' && str[i] != '>' && str[i] != '<'))
+		while (str[i] && (str[i] != '|' && str[i] != '>' && str[i] != '<'))
 			i++;
 		if (i > j)
 		{
@@ -124,14 +124,14 @@ char	**ft_cmd(char *str)
 
 void test_print(t_parsed cmdWords) {
     // Print commands
-    printf("Commands:\n");
-    for (int i = 0; cmdWords.array_cmd[i] != NULL; i++) {
-        printf(RED"%d: %s\n"RST, i, cmdWords.array_cmd[i]);
+    printf("operators:\n");
+    for (int i = 0; cmdWords.operator[i] != NULL; i++) {
+        printf(RED"%d: %s\n"RST, i, cmdWords.operator[i]);
     }
 
     // Print words
-    printf("Words:\n");
-    for (int i = 0; cmdWords.array_word[i] != NULL; i++) {
-        printf(Y"%d: %s\n"RST, i, cmdWords.array_word[i]);
+    printf("commands:\n");
+    for (int i = 0; cmdWords.cmd[i] != NULL; i++) {
+        printf(Y"%d: %s\n"RST, i, cmdWords.cmd[i]);
     }
 }

@@ -31,7 +31,7 @@ void	operator_handler(t_op operator)
 // pwd > log.txt
 
 //handle standard commands
-void	s_cmd_handler(t_cmd cmd, char **args)
+void	s_cmd_handler(t_cmd cmd)
 {
 	if (cmd == ECHO_OPTION_N)
 	{
