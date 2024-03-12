@@ -44,7 +44,6 @@ t_parsed parse_input(char *str)
     return (cmdWords); // Return the struct (make sure to manage memory properly!)
 }
 
-
 char *ft_strncpy(char *s1, char *s2, int n)
 {
 	int i = -1;
@@ -97,7 +96,7 @@ char	**ft_cmd(char *str)
 	int wc = 0;
 	while (str[i])
 	{
-        while (str[i] && (str[i] != '|' && str[i] != '>' && str[i] != '<'))
+		while (str[i] && (str[i] != '|' && str[i] != '>' && str[i] != '<'))
 			i++;
 		if (str[i] == '|' || ((str[i] == '>' && str[i + 1] == '>') || str[i] == '>' ) || ((str[i] == '<' && str[i + 1] == '<') || str[i] == '<'))
 			wc++;

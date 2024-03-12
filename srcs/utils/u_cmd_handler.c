@@ -1,32 +1,37 @@
 #include "../../include/minishell.h"
 
 //handle commands
-void	cmd_handler(t_cmd cmd)
+void	operator_handler(t_op operator)
 {
-	if (cmd == INPUT_REDIR)
+	if (operator == INPUT_REDIR)
 	{
 		;
 	}
-	else if (cmd == OUTPUT_REDIR)
+	else if (operator == OUTPUT_REDIR)
 	{
 		;
 	}
-	else if (cmd == INPUT_DELIM)
+	else if (operator == INPUT_DELIM)
 	{
 		;
 	}
-	else if (cmd == OUTPUT_REDIR_A)
+	else if (operator == OUTPUT_REDIR_A)
 	{
 		;
 	}
-	else if (cmd == PIPE)
+	else if (operator == PIPE)
 	{
 		;
 	}
 }
 
+// cmd arg arg arg NULL | cmd arg arg
+
+// echo |
+// pwd > log.txt
+
 //handle standard commands
-void	s_cmd_handler(t_cmd cmd)
+void	s_cmd_handler(t_cmd cmd, char **args)
 {
 	if (cmd == ECHO_OPTION_N)
 	{

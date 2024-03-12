@@ -28,13 +28,17 @@
  *  \___|_| |_|\__,_|_| |_| |_|___/    *
  ****************************************/
 
-typedef enum e_cmd
+typedef enum e_op
 {
 	INPUT_REDIR, // "<" which redirects input
 	OUTPUT_REDIR, // ">" which redirects output
 	INPUT_DELIM, // "<<" which reads input until a delimiter is seen
 	OUTPUT_REDIR_A, // ">>" which redirects output in append mode
 	PIPE, // Pipe character "|"
+}			t_op;
+
+typedef enum e_cmd
+{
 	ECHO_OPTION_N, // echo with option -n
 	CD_RELATIVE, // cd with a relative path
 	CD_ABSOLUTE, // cd with an absolute path
@@ -68,6 +72,12 @@ typedef struct s_parsed
     char **array_cmd;
     char **array_word;
 }				t_parsed;
+
+typedef struct s_list {
+	char	*word;
+	struct s_list	*next;
+	struct s_list	*prev;
+}	t_list;
 
 /********************************************************
 *                 | |      | |                          *
