@@ -89,6 +89,7 @@ typedef struct s_token
 //t_token			*token;
 struct s_list
 {
+	t_token			*token;
 	char			*branch;
 	struct s_list	*next;
 	struct s_list	*prev;
@@ -115,7 +116,7 @@ char	**ft_words(char *str);
 char	**ft_cmd(char *str);
 void 	test_print(t_parsed cmdWords);
 t_parsed parse_input(char *str);
-void	operator_handler(t_op operator);
+void	operator_handler(t_op operator, t_token *tkn, int i);
 
 
 void	print_list(t_list *stack);
@@ -130,6 +131,8 @@ t_token* tkn_find(t_list* head, t_parsed op_cmd);
 void	op_tumbler(t_token *tkn, t_parsed cmd_op);
 
 int op_size(t_parsed cmdWords);
+size_t	ft_strlen(const char *str);
+int i_am_a_pipe(t_token *tkn, int i);
 
 
 
