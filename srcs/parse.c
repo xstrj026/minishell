@@ -1,39 +1,5 @@
 #include "../include/minishell.h"
 
-// int find_tkn(char *str, char *c) // c == | >> <<
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while(str[i])
-// 	{
-// 		while (str[i++] == c[i])
-// 			i++;
-// 		if (!c[i])
-// 		{
-// 			return(c);
-// 		}
-// 	}
-// 	return(0);
-// }
-
-// int find_tkn(char *str, char *c) // c == | >> <<
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while(str[i])
-// 	{
-// 		while (str[i++] == c[i])
-// 			i++;
-// 		if (!c[i])
-// 		{
-// 			return(c);
-// 		}
-// 	}
-// 	return(0);
-// }
-
 t_parsed parse_input(char *str) 
 {
 	t_parsed cmdWords; // Create an instance of the struct
@@ -42,16 +8,6 @@ t_parsed parse_input(char *str)
     cmdWords.cmd = ft_words(str);
 
     return (cmdWords); // Return the struct (make sure to manage memory properly!)
-}
-
-char *ft_strncpy(char *s1, char *s2, int n)
-{
-	int i = -1;
-
-	while (++i < n && s2[i])
-		s1[i] = s2[i];
-	s1[i] = '\0';
-	return (s1);
 }
 
 char	**ft_words(char *str)
@@ -120,18 +76,4 @@ char	**ft_cmd(char *str)
 	}
 	out[k] = NULL;
 	return (out);
-}
-
-void test_print(t_parsed cmdWords) {
-    // Print commands
-    printf("operators:\n");
-    for (int i = 0; cmdWords.operator[i] != NULL; i++) {
-        printf(RED"%d: %s\n"RST, i, cmdWords.operator[i]);
-    }
-
-    // Print words
-    printf("commands:\n");
-    for (int i = 0; cmdWords.cmd[i] != NULL; i++) {
-        printf(Y"%d: %s\n"RST, i, cmdWords.cmd[i]);
-    }
 }

@@ -1,30 +1,6 @@
 #include "../../include/minishell.h"
 
 
-// void	set_token(t_list *node)
-// {
-// 	t_token test;
-
-// 	if (!strcmp(node->branch, "|"))
-// 		test.token_type = PIPE;
-// 	else if (!strcmp(node->branch, ">"))
-// 		test.token_type = OUTPUT_REDIR;
-// 	else if (!strcmp(node->branch, ">>"))
-// 		test.token_type = OUTPUT_REDIR_A;
-// 	else if (!strcmp(node->branch, "<"))
-// 		test.token_type = INPUT_REDIR;
-// 	else if (!strcmp(node->branch, "<<"))
-// 		test.token_type = INPUT_DELIM;
-// 	else
-// 		test.token_type = CONTENT;
-// 	node->token = test;
-// 	if (node->token.token_type >= INPUT_REDIR && node->token.token_type <= PIPE)
-// 	{
-// 		node->token.next = node->next->branch;
-// 		node->token.prev = node->prev->branch;
-// 	}
-// }
-
 t_list* create_node(char* branch) 
 {
     t_list* newNode = (t_list*)malloc(sizeof(t_list));
@@ -59,6 +35,8 @@ void append_branch(t_parsed cmd_op, t_list **head)
     int i;
 
     i = 0;
+    if(cmd_op.cmd[i] < cmd_op.operator[i])
+        append_node(head, cmd_op.operator[i]);
     while(cmd_op.cmd[i]) 
 	{
         append_node(head, cmd_op.cmd[i]);
@@ -67,21 +45,14 @@ void append_branch(t_parsed cmd_op, t_list **head)
         }
         i++;
     }
-	// i = 0;
-	// while (*head)
-	// {
-	// 	set_token(*head);
-	// 	(*head)++;
-	// }
 }
 
 void print_list(t_list* node) 
 {
-    printf("Linked List: ");
+    printf(G"Here we are testing linked list: "RST);
 	while (node != NULL)
 	{
-    	printf(RED"%s"RST, node->branch);
-		// printf("%d", node->token.token_type);
+    	printf("%s", node->branch);
     	node = node->next;
 	}
     printf("\n");

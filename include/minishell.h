@@ -83,12 +83,13 @@ typedef struct s_token
 	t_list	*list;
 	char	*next;
 	char	*prev;
+	int		id;
 }				t_token;
 
+//t_token			*token;
 struct s_list
 {
 	char			*branch;
-	t_token			token;
 	struct s_list	*next;
 	struct s_list	*prev;
 };
@@ -114,7 +115,7 @@ char	**ft_words(char *str);
 char	**ft_cmd(char *str);
 void 	test_print(t_parsed cmdWords);
 t_parsed parse_input(char *str);
-int		ft_strstr(const char *haystack, const char *needle);
+void	operator_handler(t_op operator);
 
 
 void	print_list(t_list *stack);
@@ -123,6 +124,13 @@ void 	append_node(t_list** head, char* branch);
 void 	append_branch(t_parsed cmd_op, t_list **head);
 void 	print_list(t_list* node);
 
+void	*ft_memset(void *str, int c, size_t n);
 int	ft_strcmp(char *s1, char *s2);
+t_token* tkn_find(t_list* head, t_parsed op_cmd);
+void	op_tumbler(t_token *tkn, t_parsed cmd_op);
+
+int op_size(t_parsed cmdWords);
+
+
 
 #endif
