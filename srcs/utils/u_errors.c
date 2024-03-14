@@ -4,6 +4,8 @@ void	print_errors(t_error error)
 {
 	if (error == STAND_ERROR)
 		printf(RED"Oooops! Error occured!\n"RST);
+	else if (error == TOKEN_UNEXP)
+		printf(RED"Oooops! Error occured!\n"RST);
 }
 
 void	print_sign(t_sign sign)

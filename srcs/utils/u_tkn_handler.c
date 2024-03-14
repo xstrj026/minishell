@@ -4,13 +4,15 @@
 t_token* tkn_find(t_list* head, t_parsed op_cmd)
 {
 	int i;
+	t_token *tkn;
+	int array_size;
 
-    int array_size = op_size(op_cmd);
-    t_token *tkn = (t_token *)malloc(array_size * sizeof(t_token));
-    if (tkn == NULL)
-        return (NULL);
-    ft_memset(tkn, 0, array_size * sizeof(t_token));
-    i = -1;
+	array_size = op_size(op_cmd);
+	tkn = (t_token *)malloc(array_size * sizeof(t_token));
+	if (tkn == NULL)
+		return (NULL);
+	ft_memset(tkn, 0, array_size * sizeof(t_token));
+	i = -1;
 	while(head)
 	{
 		if (!ft_strcmp(head->branch, "|"))

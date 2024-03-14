@@ -13,24 +13,31 @@ int	main(void)
 {
 	char	*input;
 	t_parsed cmd_op;
-	t_list* head;
+	t_list* list;
+	t_token *operator_tok;
 
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (input) 
 		{
-			head = NULL;
+			list = NULL;
 			cmd_op = parse_input(input);
-			append_branch(cmd_op, &head);
+			append_branch(cmd_op, &list);
 	
-			t_token *myTokens = tkn_find(head,cmd_op);
-			op_tumbler(myTokens, cmd_op);
+			operator_tok = tkn_find(list, cmd_op);
+			op_tumbler(operator_tok, cmd_op);
+			set_func(&list, input, operator_tok, cmd_op, list);
+			
+					
 			/*test_print(cmd_op);
-			print_list(head);*/
-
-			free(input);
-			free(myTokens); // Free the allocated memory
+			print_list(list);*/
+			//
+			ft_free_all(&list, input, operator_tok, cmd_op);
+			// free(input);
+			// free(cmd_op.cmd);
+			// free(cmd_op.operator);
+			// free(operator_tok); // Free the allocated memory
 		}
 	}
 }

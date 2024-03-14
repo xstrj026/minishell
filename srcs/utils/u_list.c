@@ -35,8 +35,10 @@ void append_branch(t_parsed cmd_op, t_list **head)
     int i;
 
     i = 0;
-    if(cmd_op.cmd[i] < cmd_op.operator[i])
-        append_node(head, cmd_op.operator[i]);
+    if (cmd_op.cmd[i] == NULL) {
+        printf("-minishell:syntax error near unexpected token `%s'\n", cmd_op.operator[i]);
+        exit(1);
+    }
     while(cmd_op.cmd[i]) 
 	{
         append_node(head, cmd_op.cmd[i]);
@@ -57,3 +59,4 @@ void print_list(t_list* node)
 	}
     printf("\n");
 }
+

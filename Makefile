@@ -1,12 +1,13 @@
 NAME = minishell
 
+LIBFT = ./libft/libft.a
 # Compiler and Norminette
 CC = gcc
 NORM = norminette
 
 # Compiler Flags and Cleaning Command
 CFLAGS = -g -Wall -Wextra -Werror -Iinclude
-LDFLAGS = -lreadline
+LDFLAGS = -lreadline ./libft/libft.a
 RM = rm -rf
 
 # Directories
@@ -21,7 +22,7 @@ OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 all : $(OBJS_DIR) $(NAME)
 
 # Compile and Link the Project
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS)  $^ -o $@ $(LDFLAGS)
 	@echo "Compilation successful."
 
@@ -46,6 +47,12 @@ fclean : clean
 norm :
 	@$(NORM) $(SRCS)
 
+$(LIBFT):
+	@echo -e "\nMake libft library file: $(LIBFT).."
+	@make -C ./libft
+	@echo -e "\n$(LIBFT) created!\n"
+
+
 
 # Define symbolic constants for color codes
 BOLD_CYAN=\033[1;36m
@@ -69,4 +76,4 @@ help:
 
 
 
-.PHONY : clean fclean re all bonus
+.PHONY : clean fclean re all bonus LIBFT
