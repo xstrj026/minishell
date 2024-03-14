@@ -1,6 +1,6 @@
 # minishell
 
-what we did?:
+# what we did?:
 
     token of operators();
     struct - with 2 arrays comands and operators();
@@ -10,7 +10,8 @@ what we did?:
   programs:
     exit
 
-TODO:
+# TODO:
+
   finish pipe
   all other operators
   programs: echo, export, pwd
