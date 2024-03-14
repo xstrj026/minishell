@@ -1,6 +1,7 @@
 # minishell
 
-what we did?:;
+what we did?:
+
     token of operators();
     struct - with 2 arrays comands and operators();
     linked list (to store commands(programs) and operators);
