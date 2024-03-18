@@ -12,6 +12,15 @@
 
 # TODO:
 
-  finish pipe
-  all other operators
-  programs: echo, export, pwd
+    enviroment, bvariables$ how to store and read $
+    handle single doble quotes'"
+      finish pipe
+      all other operators
+      programs: echo, export, pwd
+      update list
+      if quotes
+    dobble single quotes!! learn
+    enviroment variables!!
+      
+
+      keyboard keys
