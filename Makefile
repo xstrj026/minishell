@@ -12,7 +12,8 @@ RM = rm -rf
 
 # Directories
 OBJS_DIR = objs
-SRC_DIRS = srcs srcs/utils
+SRC_DIRS = srcs srcs/utils srcs/built-in_functions srcs/operators srcs/parse
+
 
 
 # Source and Object Files

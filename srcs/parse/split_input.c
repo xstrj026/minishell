@@ -1,16 +1,16 @@
 #include "../include/minishell.h"
 
-t_parsed parse_input(char *str) 
+t_array parse_input(char *str) 
 {
-	t_parsed cmdWords; // Create an instance of the struct
+	t_array array; // Create an instance of the struct
 
-    cmdWords.operator = ft_cmd(str); 
-    cmdWords.cmd = ft_words(str);
+    array.operator = ft_operators(str); 
+    array.cmd = ft_cmd(str);
 
-    return (cmdWords); // Return the struct (make sure to manage memory properly!)
+    return (array); // Return the struct (make sure to manage memory properly!)
 }
 
-char	**ft_words(char *str)
+char	**ft_cmd(char *str)
 {
 	int i = 0;
 	int j = 0;
@@ -44,7 +44,7 @@ char	**ft_words(char *str)
 	return (out);
 }
 
-char	**ft_cmd(char *str)
+char	**ft_operators(char *str)
 {
 	int i = 0;
 	int j = 0;

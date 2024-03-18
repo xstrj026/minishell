@@ -1,7 +1,7 @@
 #include "../include/minishell.h"
 
 
-int i_am_a_pipe(t_token *tkn, int i)
+/* int i_am_a_pipe(t_token *tkn, int i)
 {
     int fd[2];
 	if (pipe(fd) == -1)
@@ -26,4 +26,4 @@ int i_am_a_pipe(t_token *tkn, int i)
 		printf("our string is: %s\n", y);
 	}
 	return 0;
-}
+} */

@@ -2,8 +2,11 @@
 
 void	print_errors(t_error error)
 {
-	if (error == STAND_ERROR)
+	if (error == ERROR_MALLOC)
+	{
 		printf(RED"Oooops! Error occured!\n"RST);
+		
+	}
 	else if (error == TOKEN_UNEXP)
 		printf(RED"Oooops! Error occured!\n"RST);
 }

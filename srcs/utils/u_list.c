@@ -30,20 +30,29 @@ void append_node(t_list** head, char* branch)
     }
 }
 
-void append_branch(t_parsed cmd_op, t_list **head) 
+void append_branch(t_array array, t_list **head) 
 {
     int i;
 
     i = 0;
-    if (cmd_op.cmd[i] == NULL) {
-        printf("-minishell:syntax error near unexpected token `%s'\n", cmd_op.operator[i]);
-        exit(1);
+    if (array.operator[i] && array.operator[i+1] == NULL && !array.cmd[i]) 
+    {
+        printf("-minishell:syntax error near unexpected token `%s'\n", array.operator[i]);
+        return ;
     }
-    while(cmd_op.cmd[i]) 
+    else if (array.cmd[i] && array.cmd[i+1] == NULL && !array.operator[i]) 
 	{
-        append_node(head, cmd_op.cmd[i]);
-        if(cmd_op.operator[i]) {
-            append_node(head, cmd_op.operator[i]);
+		if(!if_cmd(array.cmd[i],"echo") && !if_cmd(array.cmd[i],"cd") && !if_cmd(array.cmd[i],"pwd") && !if_cmd(array.cmd[i],"export") && !if_cmd(array.cmd[i],"unset") && !if_cmd(array.cmd[i],"env") && !if_cmd(array.cmd[i],"exit"))
+		{
+			printf("-minishell: %s: command not found'\n", array.cmd[i]);
+			return ;
+		}
+	}
+    while(array.cmd[i]) 
+	{
+        append_node(head, array.cmd[i]);
+        if(array.operator[i]) {
+            append_node(head, array.operator[i]);
         }
         i++;
     }
@@ -51,12 +60,54 @@ void append_branch(t_parsed cmd_op, t_list **head)
 
 void print_list(t_list* node) 
 {
-    printf(G"Here we are testing linked list: "RST);
-	while (node != NULL)
-	{
-    	printf("%s", node->branch);
-    	node = node->next;
-	}
-    printf("\n");
+    int i;
+    i = 0;
+    if(DEBUG_MODE)
+    {
+        printf(G"Here we are testing linked list:\n"RST);
+	    while (node != NULL)
+	    {
+            printf(RED"node %d:"RST, i);
+    	    printf("%s\n", node->branch);
+    	    node = node->next;
+            i++;
+	    }
+        printf(RED"node %d:"RST, i);
+        printf("NULL");
+        printf("\n");
+    }
 }
 
+//join strings and update list
+//should clear list from memory allocation on stjoin
+void qt_list_update(t_list* node) 
+{
+    char* new_branch;
+
+    while (node != NULL  && node->next->next != NULL)
+	{
+        if(!if_two_quote(node->branch, 39))
+        {
+            new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
+           new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
+
+            while(!if_quote(node->branch, 39))
+            {
+                new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
+                if (node->branch) 
+                    free(node->branch);
+                node->branch = new_branch;
+                node->next = node->next->next;
+                node = node->next;
+                new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
+                node->branch = new_branch;
+                node->next = node->next->next;
+                node = node->next;
+            }
+        }
+        node = node->next;
+    }
+}
+
+/* if (node->branch) 
+                free(node->branch); // Assuming the old node->branch needs to be freed. */

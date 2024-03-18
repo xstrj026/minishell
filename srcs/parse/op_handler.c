@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	operator_handler(t_op operator, t_token *tkn, int i)
+void	operator_handler(t_op operator)
 {
 	if (operator == INPUT_REDIR)
 	{
@@ -21,18 +21,20 @@ void	operator_handler(t_op operator, t_token *tkn, int i)
 	else if (operator == PIPE)
 	{
 		printf(Y"I'm only huuuuuuman after alllllll and operator | \n"RST);
-		i_am_a_pipe(tkn, i);
+		//i_am_a_pipe(tkn, i);
 	}
 }
 
 
-void	op_tumbler(t_token *tkn, t_parsed cmd_op)
+void	op_tumbler(t_token *tkn, t_array array, t_list *list)
 {
-	int array_size = op_size(cmd_op);
+	int array_size = op_size(array);
 	int i = 0;
+	if (list == NULL)
+		return ;
 	while(i < array_size)
 	{
-		operator_handler(tkn[i].token_type, tkn, i);
+		operator_handler(tkn[i].token_type);
 		i++;
 	}
 }
