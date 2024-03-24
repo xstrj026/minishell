@@ -15,3 +15,6 @@
   finish pipe
   all other operators
   programs: echo, export, pwd
+  cmd_handler enum ECHO = 0;
+  rozlišit builtin
+  parse "|"
