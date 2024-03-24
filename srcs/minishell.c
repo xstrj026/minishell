@@ -21,19 +21,15 @@ int	main(void)
 		input = readline("minishell$ ");
 		add_history(input);
 		list = NULL;
-		array = parse_input(input);
-		test_print(array);
-		
+		array = parse_input(input);		
 		append_branch(array, &list);
-		print_list(list);
+		qt_list_update(list);
 
-		quote_handle(input, &list);
-		print_list(list);
+		//print_list(list);
 	
 		op_tok = tkn_find(list, array);
 		op_tumbler(op_tok, array, list);
 		set_func(input, op_tok, array, list);
-
 		
 		ft_free_all(&list, input, op_tok, array);
 	}

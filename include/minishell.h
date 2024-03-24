@@ -64,6 +64,13 @@ typedef enum e_error
 	ERROR_MALLOC,
 }			t_error;
 
+typedef enum e_quotes
+{
+	SINGLE,
+	DOUBLE,
+	ZERO,
+}			t_quotes;
+
 typedef enum e_sign
 {
 	STAND_SIGN,
@@ -92,6 +99,7 @@ typedef struct s_env
 {
     char *key;
     char *value;
+	//t_env *next; 
 } t_env;
 
 /*  */
@@ -112,6 +120,11 @@ struct s_list
 	struct s_list	*next;
 	struct s_list	*prev;
 };
+typedef struct s_segment
+{
+    char *string;    // Stores the substring
+    char quote_type; // Stores the type of quote ('\'', '\"', or 0 if none)
+} t_segment;
 
 /********************************************************
 *                 | |      | |                          *
@@ -133,7 +146,7 @@ char	**ft_operators(char *str);
 void 	test_print(t_array cmdWords);
 t_array parse_input(char *str);
 void	operator_handler(t_op operator);
-void	s_cmd_handler(t_list **list, char *input, t_token *operator_tok, t_array array ,t_cmd cmd);
+void	s_cmd_handler(t_list *list, char *input, t_token *operator_tok, t_array array ,t_cmd cmd);
 char *ft_strncpy(char *s1, char *s2, int n);
 int ft_strcmp(char *s1, char *s2);
 
@@ -156,6 +169,7 @@ int if_strwcmp(char *s1, char *s2);
 void set_func(char *input, t_token *operator_tok, t_array array, t_list* list);
 char	*str_cut(char *haystack, char *needle);
 int	if_cmd(char *haystack,char *needle);
+int	if_n_cmd(char *haystack,char *needle);
 
 void	ft_free_all(t_list **list, char *input, t_token *operator_tok, t_array array);
 char *ft_strcpy(char *dst, char *src);
@@ -165,10 +179,28 @@ char	**ft_env(char *str);
 char *ft_key_value(char *str, t_env *env);
 void handle_echo_quote(char *str);
 void d_test_print(char *str);
+void f_test_print(char *str);
 void i_am_testing_quotes();
 void qt_list_update(t_list* node);
 int if_two_quote(char *str, char c);
 int if_quote(char *str, char c);
-void quote_handle(char *str, t_list **list);
+
+char	*ft_strjoin_u(char *s1, char *s2);
+size_t	ft_strlcpy_u(char *dst, char *src, size_t size);
+size_t	ft_strlcat_u(char *dst, char *src, size_t size);
+int if_c_quote(char a, char c);
+void exec_list_update(t_list** list);
+char	*echo_n_cut(char *haystack,char *needle);
+int quote_handle(char *str);
+int wc_quote(char *str);
+void print_segments(char *str);
+t_segment	*ft_q_split(char *str);
+void skip_quotes(char *str);
+void	echo_print(char *str);
+void	quote_handler(char *str, char type);
+void handle_dollar(char *str);
+void free_segments(t_segment *segments);
+int if_strchr(char *str, char c);
+int one_case(char *str);
 
 #endif

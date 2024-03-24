@@ -1,11 +1,50 @@
 #include "../../include/minishell.h"
 
-
-
-void	s_cmd_handler(t_list **list, char *input, t_token *operator_tok, t_array array ,t_cmd cmd)
+char* recursive_process_echo(char **str)
 {
+    if (if_n_cmd(*str, "-n"))
+    {
+        *str = echo_n_cut(*str, "-n");
+		 return (recursive_process_echo(str));
+    }
+	else
+    {
+        return (*str);
+    }
+}
+
+
+void	s_cmd_handler(t_list *list, char *input, t_token *operator_tok, t_array array ,t_cmd cmd)
+{
+	if(!list->cmd_text)
+		return ;
 	if (cmd == ECHO)
-		printf(Y"I beleive i can flyyyyyyy and command echo \n"RST);
+	{
+		char *str;
+		
+		str = list->cmd_text;
+
+		if(quote_handle(str))
+			return ;
+		if (if_n_cmd(str, "-n"))
+		{
+			str = recursive_process_echo(&str);
+			print_segments(str);
+			if(one_case(str))
+				return ;
+			echo_print(str);
+		}
+		else
+		{
+			if (one_case(str))
+			{
+				write(1, "\n", 1);
+				return ;
+			}
+			echo_print(str);
+			write(1, "\n", 1); // New line after the final output
+		}
+	}
 	else if (cmd == CD)
 		printf(Y"Dont worry and be haaapy\n"RST);
 	else if (cmd == PWD)
@@ -20,7 +59,7 @@ void	s_cmd_handler(t_list **list, char *input, t_token *operator_tok, t_array ar
 		printf(Y"Could you be looooved and be loooved\n"RST);
 	else if (cmd == EXIT)
 	{
-		ft_exit(list, input, operator_tok, array, 1);
+		ft_exit(&list, input, operator_tok, array, 1);
 	}
 }
 
@@ -31,8 +70,7 @@ void set_func(char *input, t_token *operator_tok, t_array array, t_list* list)
 	else if (if_cmd(list->branch, "echo"))
 	{
         list->comand = ECHO;
-		list->cmd_text = str_cut(list->branch,"echo");//string po oříznutí příkazu echo
-		printf(G"Priniting echo: %s\n"RST, list->cmd_text);
+		list->cmd_text = str_cut(list->branch,"echo");
 	}
     else if (if_cmd(list->branch, "cd"))
 	{
@@ -49,5 +87,6 @@ void set_func(char *input, t_token *operator_tok, t_array array, t_list* list)
         list->comand = ENV;
     else if (!(if_strwcmp(list->branch, "exit")))
         list->comand = EXIT;
-	s_cmd_handler(&list, input, operator_tok, array, list->comand);
+	
+	s_cmd_handler(list, input, operator_tok, array, list->comand);
 }

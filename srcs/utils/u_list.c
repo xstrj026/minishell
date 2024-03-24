@@ -15,13 +15,13 @@ t_list* create_node(char* branch)
     return newNode;
 }
 
-void append_node(t_list** head, char* branch) 
+void append_node(t_list** list, char* branch) 
 {
     t_list* newNode = create_node(branch);
-    if (*head == NULL) {
-        *head = newNode;
+    if (*list == NULL) {
+        *list = newNode;
     } else {
-        t_list* lastNode = *head;
+        t_list* lastNode = *list;
         while (lastNode->next != NULL) {
             lastNode = lastNode->next;
         }
@@ -30,7 +30,7 @@ void append_node(t_list** head, char* branch)
     }
 }
 
-void append_branch(t_array array, t_list **head) 
+void append_branch(t_array array, t_list **list) 
 {
     int i;
 
@@ -48,11 +48,11 @@ void append_branch(t_array array, t_list **head)
 			return ;
 		}
 	}
-    while(array.cmd[i]) 
+    while(array.cmd[i])
 	{
-        append_node(head, array.cmd[i]);
+        append_node(list, array.cmd[i]);
         if(array.operator[i]) {
-            append_node(head, array.operator[i]);
+            append_node(list, array.operator[i]);
         }
         i++;
     }
@@ -80,34 +80,65 @@ void print_list(t_list* node)
 
 //join strings and update list
 //should clear list from memory allocation on stjoin
-void qt_list_update(t_list* node) 
-{
+void qt_list_update(t_list* node) {
     char* new_branch;
 
-    while (node != NULL  && node->next->next != NULL)
-	{
-        if(!if_two_quote(node->branch, 39))
-        {
-            new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
-           new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
+    while (node != NULL) {
+        t_list* current = node;
+        t_list* temp;
+        bool joined = false;
 
-            while(!if_quote(node->branch, 39))
+        while (current->next != NULL && !if_two_quote(current->branch, 39)) 
+        {
+            if (!if_quote(current->next->branch, 39) || current == node) 
             {
-                new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
-                if (node->branch) 
-                    free(node->branch);
-                node->branch = new_branch;
-                node->next = node->next->next;
-                node = node->next;
-                new_branch = ft_strjoin((const char *)node->branch, (const char *)node->next->branch);//leak
-                node->branch = new_branch;
-                node->next = node->next->next;
-                node = node->next;
+                new_branch = ft_strjoin_u(current->branch, current->next->branch);
+                current->branch = new_branch;
+                temp = current->next;
+                current->next = current->next->next;
+                free(temp); // Assuming t_list nodes are dynamically allocated.
+                joined = true;
+            } else {
+                break;
             }
         }
-        node = node->next;
+        while (current->next != NULL && !if_two_quote(current->branch, 34)) 
+        {
+            if (!if_quote(current->next->branch, 34) || current == node) 
+            {
+                new_branch = ft_strjoin_u(current->branch, current->next->branch);
+                current->branch = new_branch;
+                temp = current->next;
+                current->next = current->next->next;
+                free(temp); // Assuming t_list nodes are dynamically allocated.
+                joined = true;
+            } else {
+                break;
+            }
+        }
+        if (!joined) {
+            node = node->next;
+        }
     }
 }
 
 /* if (node->branch) 
                 free(node->branch); // Assuming the old node->branch needs to be freed. */
+
+void exec_list_update(t_list** list) 
+{
+    char* new_branch;
+    bool executed = false;
+
+    if (printf("testing"))
+        executed = true;
+    if (executed)
+    {
+        if (!*list || !(*list)->next->next)
+            return ;
+		*list = (*list)->next->next;
+        (*list)->prev = NULL;
+		new_branch = "updated result";
+        (*list)->branch = new_branch;
+    }
+}
