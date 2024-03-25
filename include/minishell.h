@@ -90,16 +90,16 @@ typedef struct s_list t_list;
 /* struct contains 2 arrays: **operators and **commands (arrays of string)*/
 typedef struct s_array
 {
-    char **operator;
-    char **cmd;
+	char	**operator;
+	char	**cmd;
 }				t_array;
 
 
 typedef struct s_env
 {
-    char *key;
-    char *value;
-	//t_env *next; 
+	char	*key;
+	char	*value;
+	t_env	*next; 
 } t_env;
 
 /*  */

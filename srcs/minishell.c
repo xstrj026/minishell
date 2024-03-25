@@ -31,6 +31,6 @@ int	main(void)
 		op_tumbler(op_tok, array, list);
 		set_func(input, op_tok, array, list);
 		
-		ft_free_all(&list, input, op_tok, array);
+		// ft_free_all(&list, input, op_tok, array);
 	}
 }
