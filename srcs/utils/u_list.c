@@ -3,8 +3,9 @@
 
 t_list* create_node(char* branch) 
 {
-    t_list* newNode = (t_list*)malloc(sizeof(t_list));
-
+	t_list*	newNode;
+	
+	newNode = (t_list*)safe_malloc(sizeof(t_list));
     if (newNode == NULL) {
         printf("Memory allocation failed.\n");
         exit(1);
@@ -35,7 +36,7 @@ void append_branch(t_array array, t_list **list)
     int i;
 
     i = 0;
-    if (array.operator[i] && array.operator[i+1] == NULL && !array.cmd[i]) 
+    if (array.operator[i] && array.operator[i+1] == NULL && !array.cmd[i])
     {
         printf("-minishell:syntax error near unexpected token `%s'\n", array.operator[i]);
         return ;
@@ -80,10 +81,12 @@ void print_list(t_list* node)
 
 //join strings and update list
 //should clear list from memory allocation on stjoin
-void qt_list_update(t_list* node) {
-    char* new_branch;
+void qt_list_update(t_list* node)
+{
+	char* new_branch;
 
-    while (node != NULL) {
+    while (node != NULL)
+	{
         t_list* current = node;
         t_list* temp;
         bool joined = false;

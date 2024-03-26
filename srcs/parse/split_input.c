@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_array parse_input(char *str) 
 {
@@ -16,6 +16,9 @@ char	**ft_cmd(char *str)
 	int j = 0;
 	int k = 0;
 	int wc = 0;
+
+	if(!str)
+		return (NULL);
 	while (str[i])
 	{
 		while (str[i] && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
@@ -41,6 +44,11 @@ char	**ft_cmd(char *str)
 		}
 	}
 	out[k] = NULL;
+	// printf("THIS IS ARRAY OF", RED" commands:\n"RST);
+	// while (out)
+	// {
+	// 	printf("%s\n",out);
+	// }
 	return (out);
 }
 
@@ -50,6 +58,13 @@ char	**ft_operators(char *str)
 	int j = 0;
 	int k = 0;
 	int wc = 0;
+	char	**out;
+
+	if (!str)
+	{
+		printf(RED"operator is missing\n"RST);
+		return (NULL);
+	}
 	while (str[i])
 	{
 		while (str[i] && (str[i] != '|' && str[i] != '>' && str[i] != '<'))
@@ -59,7 +74,7 @@ char	**ft_operators(char *str)
 		while (str[i] && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
 			i++;
 	}
-	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
+	out = (char **)safe_malloc(sizeof(char *) * (wc + 1));
 	i = 0;
 	while (str[i])
 	{
@@ -70,10 +85,15 @@ char	**ft_operators(char *str)
 			i++;
 		if (i > j)
 		{
-			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
+			out[k] = (char *)safe_malloc(sizeof(char) * ((i - j) + 1));
 			ft_strncpy(out[k++], &str[j], i - j);
 		}
 	}
 	out[k] = NULL;
+	// printf("THIS IS ARRAY OF OPERATORS:\n");
+	// while (out)
+	// {
+	// 	printf("%s\n",out);
+	// }
 	return (out);
 }

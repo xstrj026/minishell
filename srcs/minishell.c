@@ -12,16 +12,19 @@
 int	main(void)
 {
 	char	*input;
-	t_array array;
-	t_list* list;
-	t_token *op_tok;
+	t_array	array;
+	t_list	*list;
+	t_token	*op_tok;
+	t_env	*global_env;
 
+	global_env = NULL;
 	while (1)
 	{
 		input = readline("minishell$ ");
 		add_history(input);
 		list = NULL;
-		array = parse_input(input);		
+		//op_tok = NULL;
+		array = parse_input(input);
 		append_branch(array, &list);
 		qt_list_update(list);
 
@@ -31,6 +34,6 @@ int	main(void)
 		op_tumbler(op_tok, array, list);
 		set_func(input, op_tok, array, list);
 		
-		// ft_free_all(&list, input, op_tok, array);
+		ft_free_all(&list, input, op_tok, array);
 	}
 }

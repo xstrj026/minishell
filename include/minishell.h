@@ -85,6 +85,7 @@ typedef enum e_sign
  ****************************************/
 
 
+typedef struct s_env t_env;
 typedef struct s_list t_list;
 
 /* struct contains 2 arrays: **operators and **commands (arrays of string)*/
@@ -95,12 +96,12 @@ typedef struct s_array
 }				t_array;
 
 
-typedef struct s_env
+struct s_env
 {
 	char	*key;
 	char	*value;
 	t_env	*next; 
-} t_env;
+};
 
 /*  */
 typedef struct s_token
@@ -203,4 +204,8 @@ void free_segments(t_segment *segments);
 int if_strchr(char *str, char c);
 int one_case(char *str);
 
+//export
+void	*safe_malloc(size_t bytes);
+char	*ft_save_value(char *str, t_env *node);
+void	ft_export(t_list *list);
 #endif
