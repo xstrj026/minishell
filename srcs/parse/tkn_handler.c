@@ -8,9 +8,16 @@ t_token* tkn_find(t_list* head, t_array array)
 	int array_size;
 
 	array_size = op_size(array);
-	tkn = (t_token *)malloc(array_size * sizeof(t_token));
-	if (tkn == NULL)
+	if (array_size == 0)
+	{
 		return (NULL);
+	}
+	tkn = (t_token *)ft_calloc(array_size, sizeof(t_token));
+	if (tkn == NULL)
+	{
+		return (NULL);
+		printf("\ntkn is NULL\n");
+	}
 	i = -1;
 	while(head)
 	{

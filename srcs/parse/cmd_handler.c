@@ -13,15 +13,15 @@ char* recursive_process_echo(char **str)
     }
 }
 
-void	s_cmd_handler(t_list *list, char *input, t_token *operator_tok, t_array array ,t_cmd cmd)
+void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array array ,t_cmd cmd)
 {
 	if (cmd == ECHO)
 	{
-		if(!list->cmd_text)
+		if(!(*list)->cmd_text)
 			return ;
 		char *str;
 		
-		str = list->cmd_text;
+		str = (*list)->cmd_text;
 
 		if(quote_handle(str))
 			return ;
@@ -49,11 +49,12 @@ void	s_cmd_handler(t_list *list, char *input, t_token *operator_tok, t_array arr
 	else if (cmd == PWD)
 	{
 		ft_pwd();
+//		ft_exit(&list, operator_tok, array, 1);
 	}
 	else if (cmd == EXPORT)
 	{
 		printf(Y"EXPORT\n"RST);
-		ft_export(list);
+		ft_export(*list);
 	}
 	else if (cmd == UNSET)
 		printf(Y"Aaaaall you neeeeed is love\n"RST);
@@ -63,39 +64,40 @@ void	s_cmd_handler(t_list *list, char *input, t_token *operator_tok, t_array arr
 	}
 	else if (cmd == EXIT)
 	{
-		ft_exit(&list, input, operator_tok, array, 1);
+		ft_exit(list, operator_tok, array, 1);
 	}
+	ft_free_all(list, operator_tok, array);
 }
 
-void	set_func(char *input, t_token *operator_tok, t_array array, t_list* list) 
+void	set_func(t_token *operator_tok, t_array array, t_list** list) 
 {
 	if (list == NULL)
 		return ;
-	else if (if_cmd(list->branch, "echo"))
+	else if (if_cmd((*list)->branch, "echo"))
 	{
-		list->comand = ECHO;
-		list->cmd_text = str_cut(list->branch,"echo");
+		(*list)->comand = ECHO;
+		(*list)->cmd_text = str_cut((*list)->branch,"echo");
 	}
-    else if (if_cmd(list->branch, "cd"))
+    else if (if_cmd((*list)->branch, "cd"))
 	{
-        list->comand = CD;
+        (*list)->comand = CD;
 		//list->cmd_text = str_cut(list->branch,"cd");
 	}
-    else if (if_cmd(list->branch, "pwd"))
-        list->comand = PWD;
-    else if (if_cmd(list->branch, "export"))
+    else if (if_cmd((*list)->branch, "pwd"))
+        (*list)->comand = PWD;
+    else if (if_cmd((*list)->branch, "export"))
 	{
-        list->comand = EXPORT;
-		list->cmd_text = str_cut(list->branch,"export");
+        (*list)->comand = EXPORT;
+		(*list)->cmd_text = str_cut((*list)->branch,"export");
 	}
-    else if (if_cmd(list->branch, "unset"))
+    else if (if_cmd((*list)->branch, "unset"))
 	{
-        list->comand = UNSET;
-		list->cmd_text = str_cut(list->branch,"unset");
+        (*list)->comand = UNSET;
+		(*list)->cmd_text = str_cut((*list)->branch,"unset");
 	}
-	else if (!(if_strwcmp(list->branch, "env")))
-        list->comand = ENV;
-	else if (!(if_strwcmp(list->branch, "exit")))
-        list->comand = EXIT;
-	s_cmd_handler(list, input, operator_tok, array, list->comand);
+	else if (!(if_strwcmp((*list)->branch, "env")))
+        (*list)->comand = ENV;
+	else if (!(if_strwcmp((*list)->branch, "exit")))
+        (*list)->comand = EXIT;
+	s_cmd_handler(list, operator_tok, array, (*list)->comand);
 }

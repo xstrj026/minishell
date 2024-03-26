@@ -2,12 +2,12 @@
 
 t_array parse_input(char *str) 
 {
-	t_array array; // Create an instance of the struct
+	t_array	array; // Create an instance of the struct
 
-    array.operator = ft_operators(str); 
-    array.cmd = ft_cmd(str);
+	array.operator = ft_operators(str); 
+	array.cmd = ft_cmd(str);
 
-    return (array); // Return the struct (make sure to manage memory properly!)
+	return (array); // Return the struct (make sure to manage memory properly!)
 }
 
 char	**ft_cmd(char *str)
@@ -28,7 +28,7 @@ char	**ft_cmd(char *str)
 		while (str[i] && (str[i] != '|' && str[i] != '>' && str[i] != '<'))
 			i++;
 	}
-	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
+	char **out = (char **)calloc((wc + 1), sizeof(char *));
 	i = 0;
 	while (str[i])
 	{
@@ -39,7 +39,7 @@ char	**ft_cmd(char *str)
 			i++;
 		if (i > j)
 		{
-			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
+			out[k] = (char *)calloc(((i - j) + 1), sizeof(char));
 			ft_strncpy(out[k++], &str[j], i - j);
 		}
 	}
@@ -74,7 +74,7 @@ char	**ft_operators(char *str)
 		while (str[i] && (str[i] == '|' || str[i] == '>' || str[i] == '<'))
 			i++;
 	}
-	out = (char **)safe_malloc(sizeof(char *) * (wc + 1));
+	out = (char **)calloc((wc + 1), sizeof(char *));
 	i = 0;
 	while (str[i])
 	{
@@ -85,7 +85,7 @@ char	**ft_operators(char *str)
 			i++;
 		if (i > j)
 		{
-			out[k] = (char *)safe_malloc(sizeof(char) * ((i - j) + 1));
+			out[k] = (char *)calloc(((i - j) + 1), sizeof(char));
 			ft_strncpy(out[k++], &str[j], i - j);
 		}
 	}

@@ -7,24 +7,30 @@
 //if wrong order/wrong syntax -> free list && save to log file
 //proper cleanup
 
+void	ft_init_return_input(t_list **list, t_array *array)
+{
+	char	*input;
 
+//	input = (char*)ft_calloc(1024, sizeof(char));
+	input = readline("minishell$ ");
+	*list = NULL;
+	add_history(input);
+	*array = parse_input(input);
+	free(input);
+}
 
 int	main(void)
 {
-	char	*input;
 	t_array	array;
 	t_list	*list;
 	t_token	*op_tok;
-	t_env	*global_env;
+	// t_env	*env_var;
 
-	global_env = NULL;
+	// env_var = (t_env*)ft_calloc(1, sizeof(t_env));
 	while (1)
 	{
-		input = readline("minishell$ ");
-		add_history(input);
-		list = NULL;
+		ft_init_return_input(&list, &array);
 		//op_tok = NULL;
-		array = parse_input(input);
 		append_branch(array, &list);
 		qt_list_update(list);
 
@@ -32,8 +38,9 @@ int	main(void)
 	
 		op_tok = tkn_find(list, array);
 		op_tumbler(op_tok, array, list);
-		set_func(input, op_tok, array, list);
-		
-		ft_free_all(&list, input, op_tok, array);
+		set_func(op_tok, array, &list);
+		// ft_free_all(&list, op_tok, array);
+		free((list)->branch = NULL);
 	}
+		exit(1);
 }
