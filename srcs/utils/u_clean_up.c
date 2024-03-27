@@ -28,6 +28,29 @@ void	ft_free_parsed_cmd_operator(t_array array)
 	free_operators(array.operator);
 	return ;
 }
+/*
+void free_list(t_list **list) {
+    if (list == NULL || *list == NULL) {
+        return;
+    }
+    
+    t_list *current = *list;
+    t_list *next;
+    
+    while (current != NULL) {
+        next = current->next;
+        
+        free(current->token); // Uvolnění paměti pro řetězec v token
+        free(current->cmd_text); // Uvolnění paměti pro řetězec v cmd_text
+        if(current->branch != NULL)
+			free(current->branch); // Uvolnění paměti pro řetězec v branch
+        free(current); // Uvolnění paměti pro uzel
+        
+        current = next;
+    }
+    
+    *list = NULL; // Nastavení ukazatele na NULL, aby se zabránilo neplatnému přístupu k paměti
+} */
 
 void	free_list(t_list **list)
 {
@@ -43,6 +66,10 @@ void	free_list(t_list **list)
 		free(current->token);
 		free(current->cmd_text);
 		free(current->branch);
+		if (current->prev != NULL)
+		{
+			free(current->prev);
+		}
 		tmp = current;
 		current = current->next;
 		free(tmp);

@@ -5,12 +5,15 @@ t_list* create_node(char* branch)
 {
 	t_list*	newNode;
 	
-	newNode = (t_list*)ft_calloc(1, sizeof(t_list));
-	if (newNode == NULL) {
+	newNode = (t_list *)ft_calloc(1, sizeof(t_list));
+	if (newNode == NULL)
+	{
 		printf("Memory allocation failed.\n");
 		exit(1);
     }
     newNode->branch = branch;
+	newNode->cmd_text = NULL;
+	newNode->token = NULL;
     newNode->next = NULL;
     newNode->prev = NULL;
     return newNode;
@@ -26,7 +29,7 @@ void append_node(t_list** list, char* branch)
     }
 	else
 	{
-        t_list* lastNode = *list;
+        t_list *lastNode = *list;
         while (lastNode->next != NULL)
 		{
             lastNode = lastNode->next;
@@ -56,11 +59,11 @@ void append_branch(t_array array, t_list **list)
 	}
     while(array.cmd[i])
 	{
-		printf("\narray.cmd[i] == %s\n", array.cmd[i]);
-		printf("\narray.cmd[i] == %s\n", array.cmd[i+1]);
+		// printf("\narray.cmd[i] == %s\n", array.cmd[i]);
+		// printf("\narray.cmd[i] == %s\n", array.cmd[i+1]);
         append_node(list, array.cmd[i]);
-		printf("\narray.cmd[i] == %s\n", (*list)->branch);
-		printf("\narray.cmd[i] == %p\n", (*list)->next);
+		// printf("\narray.cmd[i] == %s\n", (*list)->branch);
+		// printf("\narray.cmd[i] == %p\n", (*list)->next);
         if(array.operator[i])
 		{
 			// printf(, array.operator[i]);

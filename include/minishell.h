@@ -148,7 +148,7 @@ char	**ft_operators(char *str);
 void 	test_print(t_array cmdWords);
 t_array parse_input(char *str);
 void	operator_handler(t_op operator);
-void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array array ,t_cmd cmd);
+void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array array ,t_cmd cmd, t_env **env_var);
 char *ft_strncpy(char *s1, char *s2, int n);
 int ft_strcmp(char *s1, char *s2);
 
@@ -168,14 +168,14 @@ int i_am_a_pipe(t_token *tkn, int i);
 
 
 int if_strwcmp(char *s1, char *s2);
-void set_func(t_token *operator_tok, t_array array, t_list **list);
+void set_func(t_token *operator_tok, t_array array, t_list **list, t_env **env_var);
 char	*str_cut(char *haystack, char *needle);
 int	if_cmd(char *haystack,char *needle);
 int	if_n_cmd(char *haystack,char *needle);
 
 void	ft_free_all(t_list **list, t_token *operator_tok, t_array array);
 char *ft_strcpy(char *dst, char *src);
-void	ft_exit(t_list **list, t_token *operator_tok, t_array array, int exit_number);
+void	ft_exit(t_list **list, t_token *operator_tok, t_array array, int exit_number, t_env **env_var);
 void  	ft_pwd();
 char	**ft_env(char *str);
 char *ft_key_value(char *str, t_env *env);
@@ -208,5 +208,6 @@ int one_case(char *str);
 //export
 void	*safe_malloc(size_t bytes);
 char	*ft_save_value(char *str, t_env *node);
-void	ft_export(t_list *list);
+void	ft_export(t_list *list, t_env **env_var);
+int ft_strcmp2(char *s1, char *s2);
 #endif

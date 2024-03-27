@@ -32,12 +32,31 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }*/
 
+/* porovnavani 2 stringu, na zaklade posledniho znaku shodujiciho se stringu, retun 0 if is the same*/
 int ft_strcmp(char *s1, char *s2)
 {
 	int i;
 
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int ft_strcmp2(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	if (s1 == NULL)
+	{
+		printf("s1 in ft_strcmp is NULL");
+	}
+	if (s1 == NULL)
+	{
+		printf("s1 in ft_strcmp is NULL");
+	}
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && s1[i] && s2[i])
 		i++;
 	return (s1[i] - s2[i]);
 }

@@ -23,9 +23,10 @@ int	main(void)
 	t_array	array;
 	t_list	*list;
 	t_token	*op_tok;
-	// t_env	*env_var;
+	t_env	*env_var;
 
 	// env_var = (t_env*)ft_calloc(1, sizeof(t_env));
+	env_var = NULL;
 	while (1)
 	{
 		ft_init_return_input(&list, &array);
@@ -37,7 +38,7 @@ int	main(void)
 	
 		op_tok = tkn_find(list, array);
 		op_tumbler(op_tok, array, list);
-		set_func(op_tok, array, &list);
+		set_func(op_tok, array, &list, &env_var);
 		// ft_free_all(&list, op_tok, array);
 		// free((list)->branch = NULL);
 		free(list);

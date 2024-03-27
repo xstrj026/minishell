@@ -13,7 +13,7 @@ char* recursive_process_echo(char **str)
     }
 }
 
-void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array array ,t_cmd cmd)
+void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array array ,t_cmd cmd, t_env **env_var)
 {
 	if (cmd == ECHO)
 	{
@@ -54,7 +54,7 @@ void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array array ,t_cmd cm
 	else if (cmd == EXPORT)
 	{
 		printf(Y"EXPORT\n"RST);
-		ft_export(*list);
+		ft_export(*list, env_var);
 	}
 	else if (cmd == UNSET)
 		printf(Y"Aaaaall you neeeeed is love\n"RST);
@@ -64,15 +64,16 @@ void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array array ,t_cmd cm
 	}
 	else if (cmd == EXIT)
 	{
-		ft_exit(list, operator_tok, array, 1);
+		ft_exit(list, operator_tok, array, 1, env_var);
 	}
 	ft_free_all(list, operator_tok, array);
 }
 
-void	set_func(t_token *operator_tok, t_array array, t_list** list) 
+void	set_func(t_token *operator_tok, t_array array, t_list** list, t_env **env_var) 
 {
-	if (list == NULL)
+	if (*list == NULL)
 		return ;
+	
 	else if (if_cmd((*list)->branch, "echo"))
 	{
 		(*list)->comand = ECHO;
@@ -99,5 +100,5 @@ void	set_func(t_token *operator_tok, t_array array, t_list** list)
         (*list)->comand = ENV;
 	else if (!(if_strwcmp((*list)->branch, "exit")))
         (*list)->comand = EXIT;
-	s_cmd_handler(list, operator_tok, array, (*list)->comand);
+	s_cmd_handler(list, operator_tok, array, (*list)->comand, env_var);
 }
