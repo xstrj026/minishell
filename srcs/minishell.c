@@ -11,7 +11,6 @@ void	ft_init_return_input(t_list **list, t_array *array)
 {
 	char	*input;
 
-//	input = (char*)ft_calloc(1024, sizeof(char));
 	input = readline("minishell$ ");
 	*list = NULL;
 	add_history(input);
@@ -40,7 +39,8 @@ int	main(void)
 		op_tumbler(op_tok, array, list);
 		set_func(op_tok, array, &list);
 		// ft_free_all(&list, op_tok, array);
-		free((list)->branch = NULL);
+		// free((list)->branch = NULL);
+		free(list);
 	}
 		exit(1);
 }
