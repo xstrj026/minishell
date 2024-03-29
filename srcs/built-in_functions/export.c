@@ -1,29 +1,12 @@
 #include "../../include/minishell.h"
 
-// void	*safe_malloc(size_t bytes)
-// {
-// 	void	*ret;
 
-// 	ret = malloc(bytes);
-// 	if (NULL == ret)
-// 	{
-// 		printf("Error: malloc failed");
-// 		exit(1);
-// 	}
-// 	return (ret);
-// }
 
 void	printf_exit(char *messege)
 {
 	printf("%s\n", messege);
 	exit(1);
 }
-
-// void	printf_return(char *messege)
-// {
-// 	printf("%s\n", messege);
-// 	return ;
-// }
 
 
 char *ft_save_key(char *str, t_env *node)
@@ -97,7 +80,7 @@ char	*ft_save_value(char *str, t_env *node)
 static void print_env(t_env *env) 
 {
 	t_env *current = env;
-	while (current != NULL) 
+	while (current != NULL && DEBUG_MODE)
 	{
 		printf(RED"Key: %s, Value: %s\n"RST, current->key, current->value);
 		current = current->next;
@@ -173,3 +156,4 @@ void	ft_export(t_list *list, t_env **env_var)
 	print_env(*env_var);
 	return ;
 }
+

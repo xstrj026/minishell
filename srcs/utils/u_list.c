@@ -39,38 +39,45 @@ void append_node(t_list** list, char* branch)
     }
 }
 
-void append_branch(t_array array, t_list **list) 
+void append_branch(t_array *array, t_list **list) 
 {
-    int i;
+	int i;
 
-    i = 0;
-    if (array.operator[i] && array.operator[i+1] == NULL && !array.cmd[i])
-    {
-        printf("-minishell:syntax error near unexpected token `%s'\n", array.operator[i]);
-        return ;
-    }
-    else if (array.cmd[i] && array.cmd[i+1] == NULL && !array.operator[i]) 
+	i = 0;
+	
+	if (!(*array).command_exist && !(*array).operator_exist)
 	{
-		if(!if_cmd(array.cmd[i],"echo") && !if_cmd(array.cmd[i],"cd") && !if_cmd(array.cmd[i],"pwd") && !if_cmd(array.cmd[i],"export") && !if_cmd(array.cmd[i],"unset") && !if_cmd(array.cmd[i],"env") && !if_cmd(array.cmd[i],"exit"))
+		return ;
+	}
+	if ((*array).command_exist && (*array).cmd[i] && (*array).cmd[i+1] == NULL && (*array).operator_exist == false) 
+	{
+		if(!if_cmd((*array).cmd[i],"echo") && !if_cmd((*array).cmd[i],"cd") && !if_cmd((*array).cmd[i],"pwd") && !if_cmd((*array).cmd[i],"export") && !if_cmd((*array).cmd[i],"unset") && !if_cmd((*array).cmd[i],"env") && !if_cmd((*array).cmd[i],"exit"))
 		{
-			printf("-minishell: %s: command not found'\n", array.cmd[i]);
+			printf("-minishell: %s: command not found'\n", (*array).cmd[i]);
+			// free((*array).cmd);
 			return ;
 		}
 	}
-    while(array.cmd[i])
+	if ((*array).operator_exist && (*array).operator[i] && (*array).operator[i+1] == NULL && !(*array).cmd[i])
 	{
-		// printf("\narray.cmd[i] == %s\n", array.cmd[i]);
-		// printf("\narray.cmd[i] == %s\n", array.cmd[i+1]);
-        append_node(list, array.cmd[i]);
-		// printf("\narray.cmd[i] == %s\n", (*list)->branch);
-		// printf("\narray.cmd[i] == %p\n", (*list)->next);
-        if(array.operator[i])
+		printf("-minishell:syntax error near unexpected token `%s'\n", (*array).operator[i]);
+		return ;
+	}
+
+	while((*array).cmd[i])
+	{
+		// printf("\n(*array).cmd[i] == %s\n", (*array).cmd[i]);
+		// printf("\n(*array).cmd[i] == %s\n", (*array).cmd[i+1]);
+		append_node(list, (*array).cmd[i]);
+		// printf("\n(*array).cmd[i] == %s\n", (*list)->branch);
+		// printf("\n(*array).cmd[i] == %p\n", (*list)->next);
+		if((*array).operator_exist == true && (*array).operator[i])
 		{
-			// printf(, array.operator[i]);
-            append_node(list, array.operator[i]);
-        }
-        i++;
-    }
+			// printf(, (*array).operator[i]);
+			append_node(list, (*array).operator[i]);
+		}
+		i++;
+	}
 }
 
 void print_list(t_list* node) 

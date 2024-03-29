@@ -32,6 +32,11 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }*/
 
+// char	*ft_putstr(char *str, char *dest)
+// {
+
+// }
+
 /* porovnavani 2 stringu, na zaklade posledniho znaku shodujiciho se stringu, retun 0 if is the same*/
 int ft_strcmp(char *s1, char *s2)
 {

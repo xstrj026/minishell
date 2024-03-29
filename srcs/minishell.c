@@ -7,41 +7,66 @@
 //if wrong order/wrong syntax -> free list && save to log file
 //proper cleanup
 
-void	ft_init_return_input(t_list **list, t_array *array)
+void	ft_init_return_input(t_list **list, t_array **main_array)
 {
 	char	*input;
+	t_array *array;
+	// int i = 0;
 
+	array = (*main_array);
+	array->command_exist = false;
+	array->operator_exist = false;
+	// if (array != NULL)
+	// {
+	// 	free(array);
+	// }
 	input = readline("minishell$ ");
+	printf("%s\n", input);
 	*list = NULL;
 	add_history(input);
-	*array = parse_input(input);
+	if (input == NULL)
+		return ;
+	array = parse_input(input, &array);
 	free(input);
 }
 
 int	main(void)
 {
-	t_array	array;
+	t_array	*array;
 	t_list	*list;
 	t_token	*op_tok;
 	t_env	*env_var;
+	// int i = 0;
 
 	// env_var = (t_env*)ft_calloc(1, sizeof(t_env));
+	// array->cmd[i] = (char*)ft_calloc(1, sizeof(char*));
+	// array->operator[i] = (char*)ft_calloc(1, sizeof(char*));
 	env_var = NULL;
+	array = (t_array*)ft_calloc(1, sizeof(t_array));
 	while (1)
 	{
 		ft_init_return_input(&list, &array);
 		//op_tok = NULL;
-		append_branch(array, &list);
-		qt_list_update(list);
-
-		//print_list(list);
-	
-		op_tok = tkn_find(list, array);
-		op_tumbler(op_tok, array, list);
-		set_func(op_tok, array, &list, &env_var);
-		// ft_free_all(&list, op_tok, array);
-		// free((list)->branch = NULL);
-		free(list);
+		if ((*array).command_exist == false && (*array).operator_exist == false)
+			printf("command and operands does not exist\n");
+		else
+		{
+			append_branch(array, &list);
+			qt_list_update(list);
+			//print_list(list);
+			if ((*array).operator_exist)
+			{
+				op_tok = tkn_find(list, *array);
+				op_tumbler(op_tok, *array, list);
+			}
+		}
+			set_func(op_tok, &array, &list, &env_var);
+			ft_free_all(&list, op_tok, &array);
+			// free((list)->branch = NULL);
+			// free(array);
+			
+			free(list);
 	}
 		exit(1);
+	return (2);
 }

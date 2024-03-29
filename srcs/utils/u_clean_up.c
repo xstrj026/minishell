@@ -12,20 +12,44 @@ void free_operators(char **operators) {
 }
 
 void free_cmd(char **cmd) {
-	if (cmd == NULL) {
-        return;
+	if (cmd == NULL) 
+	{
+		return;
     }
-    
     for (int i = 0; cmd[i] != NULL; ++i) {
         free(cmd[i]);
     }
     free(cmd);
 }
 
-void	ft_free_parsed_cmd_operator(t_array array)
+void	ft_free_parsed_cmd_operator(t_array **m_array)
 {
-	free_cmd(array.cmd);
-	free_operators(array.operator);
+	t_array	*array;
+	int	i;
+
+	i = 0;
+	array = *m_array;
+	if ((*array).command_exist == true)
+	{
+		if (DEBUG_MODE)
+		{
+			while (array->cmd[i])
+			{
+				printf(RED"command to delete%s\n"RST, array->cmd[i]);
+				i++;
+			}
+		}
+		i = 0;
+		// free_cmd(array->cmd);
+		while (array->cmd[i])
+		{
+			free(array->cmd[i]);
+			i++;
+		}
+		free(array->cmd);
+	}
+	if ((*array).operator_exist == true)
+		free_operators((*array).operator);
 	return ;
 }
 /*
@@ -81,11 +105,17 @@ void	free_tokens()
 {}
 
 //array --- uvnitr jsou 2 pole ktere je treba uvolnit
-void	ft_free_all(t_list **list, t_token *operator_tok, t_array array)
+void	ft_free_all(t_list **list, t_token *operator_tok, t_array **m_array)
 {
-	ft_free_parsed_cmd_operator(array);
-	if (operator_tok != NULL)
-		free(operator_tok);
+	t_array	*array;
+
+	array = *m_array;
+	ft_free_parsed_cmd_operator(&array);
+	if ((*array).operator_exist == true)///this is no necessary
+	{
+		if (operator_tok != NULL)
+			free(operator_tok);
+	}
 	if (*list != NULL)
 	{
 		free_list(list);

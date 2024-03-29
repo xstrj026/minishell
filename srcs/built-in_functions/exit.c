@@ -1,9 +1,13 @@
 #include "../../include/minishell.h"
 
-void	ft_exit(t_list **list, t_token *operator_tok, t_array array, int exit_number, t_env **env_var)
+
+void	ft_exit(t_list **list, t_token *operator_tok, t_array **m_array, int exit_number, t_env **env_var)
 {
+	t_array	*array;
+
+	array = *m_array;
 	printf("\nft_exit: Free memory \nCLosing minishell\n");
-	ft_free_all(list, operator_tok, array);
+	ft_free_all(list, operator_tok, &array);
 
 	//vycistit pamet
 	t_env *tmp = *env_var;
