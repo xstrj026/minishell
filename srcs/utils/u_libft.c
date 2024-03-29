@@ -57,9 +57,9 @@ int ft_strcmp2(char *s1, char *s2)
 	{
 		printf("s1 in ft_strcmp is NULL");
 	}
-	if (s1 == NULL)
+	if (s2 == NULL)
 	{
-		printf("s1 in ft_strcmp is NULL");
+		printf("s2 in ft_strcmp is NULL");
 	}
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && s1[i] && s2[i])
 		i++;

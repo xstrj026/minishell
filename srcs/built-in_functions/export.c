@@ -18,7 +18,7 @@ char *ft_save_key(char *str, t_env *node)
         i++;
     if (str[i] != '=')
     {
-        printf("THE VARIABLE MUST BE alphabetic");
+		printf("'=' was not filled, value cant be stored");
         free(node->key); // Uvolnění paměti pro node->key
         return (NULL);
     }
@@ -33,6 +33,27 @@ char *ft_save_key(char *str, t_env *node)
     return (node->key);
 }
 
+int	start_index_of_value(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')//preskocime vsechny znaky ktere uz jsou v key(tj. az po '=')
+		i++;
+	return (i);
+}
+
+bool	sign_equal_is_presented(char *str, int i, t_env **node)
+{
+	if (str[i] != '=')//kontrola; musi byt za key =
+	{
+		debug_printf("Attention, export has to work with '=' sign\n");
+		free((*node)->key);
+		return (false);
+	}
+	return (true);
+}
+
 char	*ft_save_value(char *str, t_env *node)
 {
 	int	i;
@@ -40,15 +61,9 @@ char	*ft_save_value(char *str, t_env *node)
 	int	size;
 
 	j = 0;
-	i = 0;
-	while (str[i] && str[i] != '=')//preskocime vsechny znaky ktere uz jsou v key(tj. az po '=')
-		i++;
-	if (str[i] != '=')//kontrola; musi byt za key =
-	{
-		printf("Attention, export has to work with '=' sign\n");
-		free(node->key);
+	i = start_index_of_value(str);
+	if (!sign_equal_is_presented(str, i, &node))
 		return (NULL);
-	}
 	i++;//preskocime'='
 	j = i;//ulozime si index/zacatek dalsiho retezce
 	/* 
@@ -71,15 +86,20 @@ char	*ft_save_value(char *str, t_env *node)
 			i++;
 			j++;
 		}
-		// node->value[i] = '\0';
-	//}	
 	printf("value is : %s\n", node->value);
 	return(node->value);
 }
 
-static void print_env(t_env *env) 
+void	print_env(t_env *env)
 {
-	t_env *current = env;
+	t_env *current;
+
+	if (!DEBUG_MODE)
+	{
+		return ;
+	}
+	current = env;
+	printf("\n");
 	while (current != NULL && DEBUG_MODE)
 	{
 		printf(RED"Key: %s, Value: %s\n"RST, current->key, current->value);
@@ -111,31 +131,12 @@ bool	key_is_already_in_env(t_env **env_var, t_env **node)
 	return (false);
 }
 
-void	ft_export(t_list *list, t_env **env_var)
+void	ft_append_var_node(t_env **env_var, t_env **node_to_apend)
 {
-	char	*str;
-	t_env	*node;
-	// int		is_already_in_list;
-
-	str = list->cmd_text;
-	node = (t_env *)ft_calloc(1, sizeof (t_env));
-	if (ft_save_key(str, node) == NULL)
-	{
-		free(node);
-		return;
-	}
-	//node->next = NULL;
-	//kontrola
-	if ((ft_save_value(str, node)) == NULL)
-	{
-		free(node->key);
-		free(node);
-		return ;
-	}
-	node->next = NULL;
-	// printf("%s = %s \n", node->key, node->value);
-	//append
 	t_env	*current;
+	t_env	*node;
+
+	node = *node_to_apend;
 	current = *env_var;
 	if (*env_var == NULL)
 		*env_var = node;
@@ -154,6 +155,32 @@ void	ft_export(t_list *list, t_env **env_var)
 		}
 	}
 	print_env(*env_var);
+	return ;
+}
+
+
+void	ft_export(t_list *list, t_env **env_var)
+{
+	char	*str;
+	t_env	*node;
+
+	str = list->cmd_text;
+	node = (t_env *)ft_calloc(1, sizeof (t_env));
+	if (ft_save_key(str, node) == NULL)
+	{
+		free(node);
+		return;
+	}
+	//node->next = NULL;
+	//kontrola
+	if ((ft_save_value(str, node)) == NULL)
+	{
+		free(node->key);
+		free(node);
+		return ;
+	}
+	node->next = NULL;
+	ft_append_var_node(env_var, &node);
 	return ;
 }
 

@@ -1,25 +1,55 @@
 #include "../../include/minishell.h"
 
-void	ft_unset(t_env **env_var, t_env **node)
+void	ft_free_env_key_value(t_env **env_var)
 {
 	t_env	*env;
-	t_env	*new_node;
 
-	new_node = *node;
+	env = *env_var;
+	debug_printf("\nfree env: ");
+	debug_printf(env->key);
+	if (env->key)
+		free(env->key);
+	debug_printf(env->value);
+	if (env->value)
+	{
+		free(env->value);
+	}
+	return ;
+}
+
+void	change_list_free_node(t_env **env, t_env **last_env)
+{
+	ft_free_env_key_value(env);
+	(*last_env)->next = (*env)->next;
+	free(*env);
+}
+
+void	ft_unset(t_env **env_var, t_list *list)
+{
+	t_env	*env;
+	t_env	*last_env;
+	char	*command_text;
+
+	last_env = NULL;
+	command_text = list->cmd_text;
 	env = *env_var;
 	while (env)
 	{
-		if (ft_strcmp2(env->key, new_node->key) == 0)
+		print_env(env);
+		if (ft_strcmp2(env->key, command_text) == 0)
 		{
-			free(env->value);
-			env->value = new_node->value;
-			free(new_node->key);
-			if (new_node->next != NULL)
-				free(new_node->next);
-			free(new_node);
-			return (true);
+			if (ft_strcmp2(env->key, (*env_var)->key) == 0)
+			{
+				ft_free_env_key_value(&env);
+				(*env_var) = env->next;
+				free(env);
+				return ;
+			}
+			change_list_free_node(&env, &last_env);
+			return ;
 		}
+		last_env = env;
 		env = env->next;
 	}
-	return (false);
+	return ;
 }

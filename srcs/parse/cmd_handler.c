@@ -68,7 +68,10 @@ void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array **m_array ,t_cm
 		ft_export(*list, env_var);
 	}
 	else if (cmd == UNSET)
+	{
+		ft_unset(env_var, *list);
 		printf(Y"UNSET WAS CALLED\n"RST);
+	}
 	else if (cmd == ENV)
 	{
 		printf("env, print enviroment variables\n");

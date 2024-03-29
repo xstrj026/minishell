@@ -24,7 +24,7 @@
 # define W		"\033[1;37m"
 
 # ifndef DEBUG_MODE
-#  define DEBUG_MODE 0
+#  define DEBUG_MODE 1
 # endif
 
 
@@ -217,6 +217,10 @@ int ft_strcmp2(char *s1, char *s2);
 //ENV
 void	ft_print_env(t_env *env);
 
+/* unset */
+void	ft_unset(t_env **env_var, t_list *list);
+
 //debug
 void	debug_printf(char *str);
+void	print_env(t_env *env);
 #endif
