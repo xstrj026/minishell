@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jstrojsa <jstrojsa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/30 17:44:53 by jstrojsa          #+#    #+#             */
+/*   Updated: 2024/03/30 21:55:23 by jstrojsa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
@@ -86,8 +98,8 @@ typedef enum e_sign
  ****************************************/
 
 
-typedef struct s_env t_env;
-typedef struct s_list t_list;
+typedef struct s_env	t_env;
+typedef struct s_list	t_list;
 
 /* struct contains 2 arrays: **operators and **commands (arrays of string)*/
 typedef struct s_array
@@ -103,7 +115,7 @@ struct s_env
 {
 	char	*key;
 	char	*value;
-	t_env	*next; 
+	t_env	*next;
 };
 
 /*  */
@@ -148,12 +160,13 @@ void	print_errors(t_error error);
 void	print_sign(t_sign sign);
 char	**ft_cmd(char *str);
 char	**ft_operators(char *str);
-void 	test_print(t_array cmdWords);
-t_array *parse_input(char *str, t_array **main_array);
+void	test_print(t_array cmdWords);
+t_array	*parse_input(char *str, t_array **main_array);
 void	operator_handler(t_op operator);
-void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array **array ,t_cmd cmd, t_env **env_var);
-char *ft_strncpy(char *s1, char *s2, int n);
-int ft_strcmp(char *s1, char *s2);
+void	s_cmd_handler(t_list **list, t_token *operator_tok,
+			t_array **array, t_cmd cmd, t_env **env_var);
+char	*ft_strncpy(char *s1, char *s2, int n);
+int		ft_strcmp(char *s1, char *s2);
 
 
 void	print_list(t_list *stack);
@@ -177,42 +190,48 @@ int	if_cmd(char *haystack,char *needle);
 int	if_n_cmd(char *haystack,char *needle);
 
 void	ft_free_all(t_list **list, t_token *operator_tok, t_array **array);
-char *ft_strcpy(char *dst, char *src);
-void	ft_exit(t_list **list, t_token *operator_tok, t_array **array, int exit_number, t_env **env_var);
-void  	ft_pwd();
+char	*ft_strcpy(char *dst, char *src);
+void	ft_exit(t_list **list, t_token *operator_tok, t_array **array,
+			int exit_number, t_env **env_var);
+void	ft_pwd();
 char	**ft_env(char *str);
-char *ft_key_value(char *str, t_env *env);
-void handle_echo_quote(char *str);
-void d_test_print(char *str);
-void f_test_print(char *str);
-void i_am_testing_quotes();
-void qt_list_update(t_list* node);
-int if_two_quote(char *str, char c);
-int if_quote(char *str, char c);
+char	*ft_key_value(char *str, t_env *env);
+void	handle_echo_quote(char *str);
+void	d_test_print(char *str);
+void	f_test_print(char *str);
+void	i_am_testing_quotes();
+void	qt_list_update(t_list* node);
+int		if_two_quote(char *str, char c);
+int		if_quote(char *str, char c);
 
 char	*ft_strjoin_u(char *s1, char *s2);
 size_t	ft_strlcpy_u(char *dst, char *src, size_t size);
 size_t	ft_strlcat_u(char *dst, char *src, size_t size);
-int if_c_quote(char a, char c);
-void exec_list_update(t_list** list);
+int		if_c_quote(char a, char c);
+void	exec_list_update(t_list** list);
+
+//echo
+void	quote_handler(char *str, char type, t_env **env_var);
 char	*echo_n_cut(char *haystack,char *needle);
-int quote_handle(char *str);
-int wc_quote(char *str);
-void print_segments(char *str);
+int		quote_handle(char *str);
+int		wc_quote(char *str);
+void	print_segments(char *str);
 t_segment	*ft_q_split(char *str);
-void skip_quotes(char *str);
-void	echo_print(char *str);
-void	quote_handler(char *str, char type);
-void handle_dollar(char *str);
+void	skip_quotes(char *str);
+void	echo_print(char *str, t_env **env_var);
+void	handle_dollar(char *str, t_env **m_env);
 void free_segments(t_segment *segments);
 int if_strchr(char *str, char c);
 int one_case(char *str);
+
+//u_libft
+size_t	ft_strlen_u(char *str);
 
 //export
 void	*safe_malloc(size_t bytes);
 char	*ft_save_value(char *str, t_env *node);
 void	ft_export(t_list *list, t_env **env_var);
-int ft_strcmp2(char *s1, char *s2);
+int		ft_strcmp2(char *s1, char *s2);
 
 //ENV
 void	ft_print_env(t_env *env);
@@ -223,4 +242,8 @@ void	ft_unset(t_env **env_var, t_list *list);
 //debug
 void	debug_printf(char *str);
 void	print_env(t_env *env);
+
+//error
+void	msg_error(char *s);
+
 #endif

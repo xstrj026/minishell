@@ -86,10 +86,12 @@ void	free_list(t_list **list)
 	current = *list;
 	while (current && current->next != NULL)
 	{
-		// tmp = current->next;
+		tmp = current->next;
 		free(current->token);
-		free(current->cmd_text);
-		free(current->branch);
+		if (current->cmd_text)
+			free(current->cmd_text);
+		if (current->branch)
+			free(current->branch);
 		if (current->prev != NULL)
 		{
 			free(current->prev);
@@ -113,6 +115,7 @@ void	ft_free_all(t_list **list, t_token *operator_tok, t_array **m_array)
 	ft_free_parsed_cmd_operator(&array);
 	if ((*array).operator_exist == true)///this is no necessary
 	{
+		// free();
 		if (operator_tok != NULL)
 			free(operator_tok);
 	}

@@ -40,9 +40,9 @@ void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array **m_array ,t_cm
 		{
 			str = recursive_process_echo(&str);
 			print_segments(str);
-			if(one_case(str))
+			if (one_case(str))
 				return ;
-			echo_print(str);
+			echo_print(str, env_var);
 		}
 		else
 		{
@@ -51,7 +51,7 @@ void	s_cmd_handler(t_list **list, t_token *operator_tok, t_array **m_array ,t_cm
 				write(1, "\n", 1);
 				return ;
 			}
-			echo_print(str);
+			echo_print(str, env_var);
 			write(1, "\n", 1); // New line after the final output
 		}
 	}
@@ -99,13 +99,13 @@ void	set_func(t_token *operator_tok, t_array **m_array, t_list** list, t_env **e
 		(*list)->comand = ECHO;
 		(*list)->cmd_text = str_cut((*list)->branch,"echo");
 	}
-    else if (if_cmd((*list)->branch, "cd"))
+	else if (if_cmd((*list)->branch, "cd"))
 	{
-        (*list)->comand = CD;
+		(*list)->comand = CD;
 		//list->cmd_text = str_cut(list->branch,"cd");
 	}
-    else if (if_cmd((*list)->branch, "pwd"))
-        (*list)->comand = PWD;
+	else if (if_cmd((*list)->branch, "pwd"))
+		(*list)->comand = PWD;
     else if (if_cmd((*list)->branch, "export"))
 	{
         (*list)->comand = EXPORT;

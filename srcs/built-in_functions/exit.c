@@ -1,17 +1,12 @@
 #include "../../include/minishell.h"
 
-
-void	ft_exit(t_list **list, t_token *operator_tok, t_array **m_array, int exit_number, t_env **env_var)
+void	free_all_env(t_env **env_var)
 {
-	t_array	*array;
+	t_env	*tmp;
+	t_env	*next;
 
-	array = *m_array;
-	printf("\nft_exit: Free memory \nCLosing minishell\n");
-	ft_free_all(list, operator_tok, &array);
-
-	//vycistit pamet
-	t_env *tmp = *env_var;
-	t_env *next;
+	msg_error("env $ cleaning");
+	tmp = *env_var;
 	while (tmp != NULL)
 	{
 		free(tmp->key);
@@ -20,7 +15,15 @@ void	ft_exit(t_list **list, t_token *operator_tok, t_array **m_array, int exit_n
 		free(tmp);
 		tmp = next;
 	}
-	// if(*env_var!=NULL)
-	// 	free(*env_var);
+}
+
+void	ft_exit(t_list **list, t_token *operator_tok, t_array **m_array, int exit_number, t_env **env_var)
+{
+	t_array	*array;
+
+	array = *m_array;
+	msg_error("\nft_exit: Free memory \nCLosing minishell\n");
+	ft_free_all(list, operator_tok, &array);
+	free_all_env(env_var);
 	exit(exit_number);
 }

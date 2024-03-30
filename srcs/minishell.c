@@ -10,16 +10,12 @@
 void	ft_init_return_input(t_list **list, t_array **main_array)
 {
 	char	*input;
-	t_array *array;
-	// int i = 0;
+	t_array	*array;
 
+	msg_error("\t\tDEBUG MOD JE ZAPNUT");
 	array = (*main_array);
 	array->command_exist = false;
 	array->operator_exist = false;
-	// if (array != NULL)
-	// {
-	// 	free(array);
-	// }
 	input = readline("minishell$ ");
 	printf("%s\n", input);
 	*list = NULL;
@@ -60,11 +56,11 @@ int	main(void)
 				op_tumbler(op_tok, *array, list);
 			}
 		}
-			set_func(op_tok, &array, &list, &env_var);
-			ft_free_all(&list, op_tok, &array);
-			// free((list)->branch = NULL);
-			// free(array);
-			
+		set_func(op_tok, &array, &list, &env_var);
+		ft_free_all(&list, op_tok, &array);
+		// free((list)->branch = NULL);
+		// free(array);
+		if (list != NULL)
 			free(list);
 	}
 		exit(1);

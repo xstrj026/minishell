@@ -105,7 +105,8 @@ static char *q_strncpy(char *s1, char *s2, int n)
     return out;
 } */
 
-t_segment *ft_q_split(char *str) {
+t_segment *ft_q_split(char *str)
+{
     int i = 0, start = -1, k = 0;
     char current_quote = 0;
     int wc = wc_quote(str); // Assume this correctly counts the segments
