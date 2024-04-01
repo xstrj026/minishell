@@ -1,42 +1,42 @@
 #include "../../include/minishell.h"
 
 
-t_list* create_node(char* branch) 
+t_list	*create_node(char* branch) 
 {
-	t_list*	newNode;
+	t_list	*newNode;
 	
 	newNode = (t_list *)ft_calloc(1, sizeof(t_list));
 	if (newNode == NULL)
 	{
 		printf("Memory allocation failed.\n");
 		exit(1);
-    }
-    newNode->branch = branch;
+	}
+	newNode->branch = branch;
 	newNode->cmd_text = NULL;
 	newNode->token = NULL;
-    newNode->next = NULL;
-    newNode->prev = NULL;
-    return newNode;
+	newNode->next = NULL;
+	newNode->prev = NULL;
+	return (newNode);
 }
 
-void append_node(t_list** list, char* branch) 
+void append_node(t_list **list, char *branch)
 {
-    t_list*	newNode = create_node(branch);
+	t_list	*lastNode;
+	t_list	*newNode;
 
-    if (*list == NULL)
+	newNode = create_node(branch);
+	lastNode = *list;
+	if (*list == NULL)
 	{
 		*list = newNode;
-    }
+	}
 	else
 	{
-        t_list *lastNode = *list;
-        while (lastNode->next != NULL)
-		{
-            lastNode = lastNode->next;
-        }
-        lastNode->next = newNode;
-        newNode->prev = lastNode;
-    }
+		while (lastNode->next != NULL)
+			lastNode = lastNode->next;
+		lastNode->next = newNode;
+		newNode->prev = lastNode;
+	}
 }
 
 void append_branch(t_array *array, t_list **list) 
@@ -68,7 +68,7 @@ void append_branch(t_array *array, t_list **list)
 	{
 		// printf("\n(*array).cmd[i] == %s\n", (*array).cmd[i]);
 		// printf("\n(*array).cmd[i] == %s\n", (*array).cmd[i+1]);
-		append_node(list, (*array).cmd[i]);
+		append_node(list, array->cmd[i]);
 		// printf("\n(*array).cmd[i] == %s\n", (*list)->branch);
 		// printf("\n(*array).cmd[i] == %p\n", (*list)->next);
 		if((*array).operator_exist == true && (*array).operator[i])

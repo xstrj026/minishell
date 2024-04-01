@@ -60,8 +60,8 @@ int	main(void)
 		ft_free_all(&list, op_tok, &array);
 		// free((list)->branch = NULL);
 		// free(array);
-		if (list != NULL)
-			free(list);
+		// if (list != NULL)
+		// 	free(list);
 	}
 		exit(1);
 	return (2);

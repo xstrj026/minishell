@@ -90,12 +90,12 @@ void	free_list(t_list **list)
 		free(current->token);
 		if (current->cmd_text)
 			free(current->cmd_text);
-		if (current->branch)
-			free(current->branch);
-		if (current->prev != NULL)
-		{
-			free(current->prev);
-		}
+		// if (current->branch)
+		// 	free(current->branch);
+		// if (current->prev != NULL)
+		// {
+		// 	free(current->prev);
+		// }
 		tmp = current;
 		current = current->next;
 		free(tmp);
