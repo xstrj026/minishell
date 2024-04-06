@@ -24,6 +24,8 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include <dirent.h>
+# include <signal.h>
+
 
 
 # define RST	"\033[0m"

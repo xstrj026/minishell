@@ -16,6 +16,7 @@ void	ft_init_return_input(t_list **list, t_array **main_array)
 	array = (*main_array);
 	array->command_exist = false;
 	array->operator_exist = false;
+
 	input = readline("minishell$ ");
 	printf("%s\n", input);
 	*list = NULL;
@@ -24,6 +25,25 @@ void	ft_init_return_input(t_list **list, t_array **main_array)
 		return ;
 	array = parse_input(input, &array);
 	free(input);
+}
+
+static void sigintHandler(int signum)
+{
+    // Signal handler function
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+		signal(SIGINT, sigintHandler);
+	}
+}
+
+void signal_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+        signal(SIGINT, signal_handler);
+	}
 }
 
 int	main(void)
@@ -39,6 +59,7 @@ int	main(void)
 	// array->operator[i] = (char*)ft_calloc(1, sizeof(char*));
 	env_var = NULL;
 	array = (t_array*)ft_calloc(1, sizeof(t_array));
+	signal(SIGINT, sigintHandler);
 	while (1)
 	{
 		ft_init_return_input(&list, &array);
